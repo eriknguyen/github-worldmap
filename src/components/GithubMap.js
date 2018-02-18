@@ -9,11 +9,31 @@ class GithubMap extends Component {
     super(props);
     
     this.state = {
+      map: null,
       center: {
         lat: 1.278184,
         lng: 103.848075
       },
       zoom: 0
+    }
+  }
+
+  componentWillReceiveProps({selectedCountry}) {
+    if (this.props.selectedCountry !== selectedCountry) {
+      if (this.state.map) {
+        const service = new window.google.maps.places.PlacesService(this.state.map);
+        service.textSearch({
+          query: selectedCountry
+        }, (result, status) => {
+          const location = result[0].geometry.location;
+          this.setState({
+            center: {
+              lat: location.lat(),
+              lng: location.lng()
+            }
+          })
+        });
+      }
     }
   }
 
@@ -24,11 +44,15 @@ class GithubMap extends Component {
           bootstrapURLKeys={{
             key: 'AIzaSyCUabf-YDUsAB9Tpc09pxZ2odk9LrA0IQ8'
           }}
+          onGoogleApiLoaded={({map, maps}) => {
+            this.setState({map: map})
+          }}
           defaultCenter={ this.state.center }
+          center={this.state.center}
           defaultZoom={ this.state.zoom } >
           <AnyReactComponent
-            lat={ 1.278184 }
-            lng={ 103.848075 }
+            lat={ this.state.center.lat }
+            lng={ this.state.center.lng }
             country={ this.props.selectedCountry } />
         </GoogleMapReact>
       </div>
