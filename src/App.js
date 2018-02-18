@@ -3,7 +3,7 @@ import './App.css';
 
 // import list of countries
 // can use this instead: https://restcountries.eu/rest/v2/all?fields=name;altSpellings
-import { countries } from './utils/countries.json';
+import { countries } from './data/countries.json';
 
 // import components
 import GithubMap from './components/GithubMap';
