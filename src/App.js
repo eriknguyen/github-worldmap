@@ -3,7 +3,7 @@ import './App.css';
 
 // import list of countries
 // can use this instead: https://restcountries.eu/rest/v2/all?fields=name;altSpellings
-import { countries } from './data/countries.json';
+import store from './data/store';
 
 // import components
 import GithubMap from './components/GithubMap';
@@ -17,7 +17,7 @@ class App extends Component {
       width: 0,
       height: 0,
       selectedCountry: null
-    }
+    };
     this.resizeMap = this.resizeMap.bind(this);
   }
 
@@ -29,15 +29,15 @@ class App extends Component {
   }
 
   componentWillMount() {
-      this.resizeMap();
+    this.resizeMap();
   }
 
   componentDidMount() {
-    window.addEventListener("resize", this.resizeMap);
+    window.addEventListener('resize', this.resizeMap);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.resizeMap);
+    window.removeEventListener('resize', this.resizeMap);
   }
 
   onSelectChange(selectedCountry) {
@@ -49,7 +49,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Control countries={countries} onCountrySelectChange={this.onSelectChange.bind(this)} />
+        <Control countries={store.getCountries()} onCountrySelectChange={this.onSelectChange.bind(this)} />
         <GithubMap 
           style={{width: this.state.width + 'px', height: this.state.height + 'px'}}
           selectedCountry={this.state.selectedCountry} />

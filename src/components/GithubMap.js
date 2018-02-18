@@ -19,6 +19,11 @@ class GithubMap extends Component {
     };
   }
 
+  /**
+   * update center of the map when new country is selected
+   * 
+   * @param {*} param0
+   */
   componentWillReceiveProps({selectedCountry}) {
     if (this.props.selectedCountry !== selectedCountry) {
       if (this.state.map) {
@@ -38,9 +43,10 @@ class GithubMap extends Component {
     }
   }
 
-  onMarkerClick(key, childProps) {
-    console.log('key: ', key);
-    console.log('childProps: ', childProps);
+  /**
+   * trigger the detail tooltip by updating the state.clicked
+   */
+  onMarkerClick() {
     this.setState({
       clicked: !this.state.clicked
     });

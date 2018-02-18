@@ -21,7 +21,7 @@ class Control extends Component {
                     <option>Select countries</option>
                     {this.props.countries.map((country) => {
                       return (
-                        <option key={country.code} value={country.name}>{country.name}</option>
+                        <option key={country} value={country}>{country}</option>
                       );
                     })}
                   </select>

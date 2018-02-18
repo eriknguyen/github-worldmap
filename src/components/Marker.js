@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import store from '../data/store';
+import flatten from '../utils/flatten';
 
 const CLIENT_ID = '26a9fb6a926836bc77b7';
 const CLIENT_SECRET = 'db08c23916375e6782dee0e189ed026628d53d39';
 
 const API_PARAMS = `client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`;
 const GITHUB_URL = 'https://api.github.com';
-
-const GOOGLE_MAP_API_KEY = 'AIzaSyCUabf-YDUsAB9Tpc09pxZ2odk9LrA0IQ8';
-const GOOGLE_PLACE_URL = `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${GOOGLE_MAP_API_KEY}`;
 
 class Marker extends Component {
   constructor(props) {
@@ -19,9 +18,27 @@ class Marker extends Component {
     };
   }
 
+  /**
+   * Take a country name and return all the possible name of that countries.
+   * 3 steps: flatten the countryInfo object -> convert into non-duplicate array of name -> join a string of params for location
+   * 
+   * @param {string} country 
+   */
+  createLocationParams(country) {
+    const countryInfo = flatten(store.getCountry(country));
+    let allLocations = [...new Set(Object.keys(countryInfo).map((k) => countryInfo[k]))];
+    return allLocations.map(loc => `location:"${loc}"`).join('+');
+  }
+
+  /**
+   * Check when this Marker getting new props and new country is selected then fetch data from Github API and update the state
+   * 
+   * @param {*} nextProps 
+   */
   componentWillReceiveProps(nextProps) {
     if (nextProps.country && nextProps.country !== this.props.country) {
-      axios.get(`${GITHUB_URL}/search/users?q=+location:${nextProps.country}&sort=followers&per_page=10`)
+      const locationParams = this.createLocationParams(nextProps.country);
+      axios.get(`${GITHUB_URL}/search/users?${API_PARAMS}&q=${locationParams}&sort=followers&per_page=10`)
         .then(resp => {
           this.setState({
             users: resp.data.items,
