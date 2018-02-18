@@ -6504,3 +6504,54 @@ label.panel-block {
 .footer {
   background-color: whitesmoke;
   padding: 3rem 1.5rem 6rem; }
+
+.marker-details {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  transform: translateY(-50%);
+  height: 220px;
+  width: 300px;
+  padding: 15px 20px;
+  background: #fff;
+  box-shadow: 9px 9px 10px -6px rgba(0, 0, 0, 0.26); }
+  .marker-details:before {
+    content: '';
+    top: 50%;
+    left: -10px;
+    border: solid transparent;
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: transparent;
+    border-top-color: #fff;
+    border-width: 10px;
+    margin-left: -10px;
+    transform: translateY(-50%) rotate(90deg); }
+
+.marker-details__title {
+  font-size: 24px;
+  font-weight: 600; }
+
+.marker-details__subtitle {
+  font-size: 16px; }
+
+.marker-details__content {
+  margin-top: 15px;
+  font-size: 16px; }
+
+.avatar-list {
+  margin: 10px 0; }
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: block;
+  float: left;
+  margin: 4px;
+  overflow: hidden; }
+  .avatar img {
+    width: 100%; }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker';
 
-const AnyReactComponent = ({ country }) => (<Marker country={country} />);
+const AnyReactComponent = ({ country, clicked }) => (<Marker country={country} clicked={clicked} />);
 
 class GithubMap extends Component {
   constructor(props) {
@@ -14,8 +14,9 @@ class GithubMap extends Component {
         lat: 1.278184,
         lng: 103.848075
       },
-      zoom: 0
-    }
+      zoom: 0,
+      clicked: false
+    };
   }
 
   componentWillReceiveProps({selectedCountry}) {
@@ -31,10 +32,18 @@ class GithubMap extends Component {
               lat: location.lat(),
               lng: location.lng()
             }
-          })
+          });
         });
       }
     }
+  }
+
+  onMarkerClick(key, childProps) {
+    console.log('key: ', key);
+    console.log('childProps: ', childProps);
+    this.setState({
+      clicked: !this.state.clicked
+    });
   }
 
   render() {
@@ -44,16 +53,17 @@ class GithubMap extends Component {
           bootstrapURLKeys={{
             key: 'AIzaSyCUabf-YDUsAB9Tpc09pxZ2odk9LrA0IQ8'
           }}
-          onGoogleApiLoaded={({map, maps}) => {
-            this.setState({map: map})
+          onGoogleApiLoaded={({map}) => {
+            this.setState({map});
           }}
-          defaultCenter={ this.state.center }
           center={this.state.center}
-          defaultZoom={ this.state.zoom } >
+          defaultZoom={this.state.zoom}
+          onChildClick={this.onMarkerClick.bind(this)} >
           <AnyReactComponent
-            lat={ this.state.center.lat }
-            lng={ this.state.center.lng }
-            country={ this.props.selectedCountry } />
+            lat={this.state.center.lat}
+            lng={this.state.center.lng}
+            country={this.props.selectedCountry}
+            clicked={this.state.clicked} />
         </GoogleMapReact>
       </div>
     );
