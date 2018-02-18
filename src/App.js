@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
+
+// import list of countries
+// can use this instead: https://restcountries.eu/rest/v2/all?fields=name;altSpellings
 import { countries } from './utils/countries.json';
 
 // import components
@@ -9,9 +12,11 @@ import Control from './components/Control';
 class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      width: '100%',
-      height: '600px'
+      width: 0,
+      height: 0,
+      selectedCountry: null
     }
     this.resizeMap = this.resizeMap.bind(this);
   }
@@ -28,18 +33,26 @@ class App extends Component {
   }
 
   componentDidMount() {
-      window.addEventListener("resize", this.resizeMap);
+    window.addEventListener("resize", this.resizeMap);
   }
 
   componentWillUnmount() {
-      window.removeEventListener("resize", this.resizeMap);
+    window.removeEventListener("resize", this.resizeMap);
+  }
+
+  onSelectChange(selectedCountry) {
+    this.setState({
+      selectedCountry
+    });
   }
   
   render() {
     return (
       <div>
-        <Control countries={countries} />
-        <GithubMap style={{width: this.state.width + 'px', height: this.state.height + 'px'}}/>
+        <Control countries={countries} onCountrySelectChange={this.onSelectChange.bind(this)} />
+        <GithubMap 
+          style={{width: this.state.width + 'px', height: this.state.height + 'px'}}
+          selectedCountry={this.state.selectedCountry} />
       </div>
     );
   }

@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.17.1",
     "bulma": "^0.6.2",
     "google-map-react": "^0.31.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "semantic-ui-react": "^0.78.2"
   },
   "devDependencies": {
     "node-sass-chokidar": "^0.0.3",

@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
 
 class Control extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+  
+  onSelectChange(event) {
+    if (event.target.value !== "Select countries") {
+      const selectedCountry = event.target.value;
+      this.props.onCountrySelectChange(selectedCountry);
+    }
+  }
+
   render() {
     return (
         <nav className="navbar">
@@ -9,11 +21,11 @@ class Control extends Component {
                 <div className="field" style={{'width': '100%'}}>
                   <div className="control has-icons-left">
                     <div className="select is-primary">
-                      <select>
+                      <select onChange={this.onSelectChange.bind(this)}>
                         <option>Select countries</option>
                         {this.props.countries.map((country) => {
                           return (
-                            <option key={country.code}>{country.name}</option>
+                            <option key={country.code} value={country.name}>{country.name}</option>
                           )
                         })}
                       </select>
